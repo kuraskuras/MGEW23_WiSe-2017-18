@@ -1,0 +1,56 @@
+---
+output:
+  slidy_presentation: default
+  beamer_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Wahrscheinlichkeit 1000-jähriger Tornados für 1000 Jahre
+
+Wahrscheinlichkeit eines 1000-Jahre-Ereignis innerhalb von 1000 Jahren
+
+
+
+```{r}
+# set number of years
+n <- 100
+# set annual exceedence probability
+p <- 1/n
+# probability of no 1000yr event in 1000 yrs
+(1-p)^n
+```
+
+Ergebnis: Zu 63.23% tritt ein 1000-Jahre-Ereignis innerhalb von 1000 Jahren mind. einmal auf
+
+
+
+
+
+Wahrscheinlichkeit mehrerer 1000-jähriger Tornados innerhalb von 1000 Jahren
+
+```{r}
+# generate 1000 yrs of random uniform numbers [runif(n,lower,upper)]
+y <- runif(1000)
+
+# count only those numbers >=0.999 (or <0.001)
+(obs <- sum(y >= 0.999))
+
+#Matrix 1000x1000: 1000 Jahre 1000mal simuliert
+m <- matrix(runif(1000000),ncol=1000)
+
+#nur einzelne Zeilen prüfen:
+#(obs <- sum(m[1] >= 0.999))
+
+#alle zeilen prüfen (vektorisierter Code):
+g <- rowSums(m>=0.999)
+
+#Ergebnisse von rowsums plotten:
+
+# als einfacher plot: plot(g)
+# als Tabelle: table(g)
+# als plot aus table:
+plot(table(g))
+```
