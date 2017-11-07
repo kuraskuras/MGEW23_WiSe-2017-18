@@ -1,0 +1,39 @@
+---
+title: "Question on Thousand-Year Tornados"
+author: "Till Hainbach"
+date: "7 11 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## What can we say about the probabilities of observing multiple 1,000-year tornadoes in thousand years?
+
+First we have to create random time series of 1000 events. We set the number of obeservation years to 1000 years. For each year, we modelled uniformly distributed strength.
+```{r}
+# number of datasets
+n = 1000
+
+# create events with random strength
+t <- replicate(n, runif(1000))
+```
+
+
+Now we have to count all events within one time serie, that are beyond the thousand-year event threshold (meaning the strongest 0.1%).
+```{r}
+# observed events of certain strength
+obsa <- colSums(t >= 0.999)
+```
+
+
+Display the result in a barplot
+```{r}
+# plot
+barplot(prop.table(table(obsa)), ylab = "probability",
+        xlab = "number of events", ylim = c(0,0.4),
+        main = "Probability of n thousand-year tornados observed within one time serie")
+```
+
+
